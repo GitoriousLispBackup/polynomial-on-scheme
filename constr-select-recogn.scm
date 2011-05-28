@@ -1,6 +1,9 @@
 ;;; Costructors, Recognizers and Selectors
 ;;; for the basic polynomials
 
+;; Load list tools.
+(load "list_tools.scm")
+
 ;; Constructors for polynomials
 
 (define (const num)
@@ -10,10 +13,18 @@
   sym)
 
 (define (sum . polys)
-  (append '(+) polys))
+  (append '(+) (append-map (lambda (x)
+                             (if (sum? x)
+                               (sum->args x)
+                               (list x)))
+                           polys)))
 
 (define (prod . polys)
-  (append '(*) polys))
+  (append '(*) (append-map (lambda (x)
+                             (if (prod? x)
+                               (prod->args x)
+                               (list x)))
+                           polys)))
 
 (define (power poly num)
   (list '** poly num))
@@ -54,27 +65,4 @@
 
 (define (power-exponent pow)
   (third pow))
-  
-;; Introspection on the basic types
-;++ TODO some code is repeated here
 
-(define (get-constructor poly)
-  (cond
-    ((const? poly) const)
-    ((var? poly) var)
-    ((sum? poly) sum)
-    ((prod? poly) prod)
-    ((power? poly) power)
-    (else (error "get-constructor called on non basic type."))))
-    
-(define (get-recognizer poly)
-  (cond
-    ((const? poly) const?)
-    ((var? poly) var?)
-    ((sum? poly) sum?)
-    ((prod? poly) prod?)
-    ((power? poly) power?)
-    (else (error "get-recognizer called on non basic type."))))
-
-(define (get-args tree)
-  (cdr tree))

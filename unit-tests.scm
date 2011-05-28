@@ -54,11 +54,6 @@
 (check (poly-expand (sum (prod x))) => x)
 (check (poly-expand (prod (sum x))) => x)
 
-(check (remove-depth-one (prod x (prod x y))) => (prod x x y))
-(check (remove-depth-one (sum x (sum x y))) => (sum x x y))
-(check (remove-depth-one (prod x (prod x (prod x y)))) => (prod x x (prod x y)))
-(check (remove-depth-one (sum x (sum x (sum x y)))) => (sum x x (sum x y)))
-
 ;;; Unit tests for differentiation
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
