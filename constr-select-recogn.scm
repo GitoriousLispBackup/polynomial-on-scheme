@@ -54,4 +54,27 @@
 
 (define (power-exponent pow)
   (third pow))
+  
+;; Introspection on the basic types
+;++ TODO some code is repeated here
 
+(define (get-constructor poly)
+  (cond
+    ((const? poly) const)
+    ((var? poly) var)
+    ((sum? poly) sum)
+    ((prod? poly) prod)
+    ((power? poly) power)
+    (else (error "get-constructor called on non basic type."))))
+    
+(define (get-recognizer poly)
+  (cond
+    ((const? poly) const?)
+    ((var? poly) var?)
+    ((sum? poly) sum?)
+    ((prod? poly) prod?)
+    ((power? poly) power?)
+    (else (error "get-recognizer called on non basic type."))))
+
+(define (get-args tree)
+  (cdr tree))

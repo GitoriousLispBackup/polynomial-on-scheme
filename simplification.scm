@@ -9,14 +9,14 @@
   (cond
     ((const? poly) poly)
     ((var? poly) poly)
+    ((derivative? poly) poly)
     ((sum? poly)
      (simplified-sum (map simplify (sum->args poly))))
     ((prod? poly)
      (simplified-prod (map simplify (prod->args poly))))
     ((power? poly)
      (simplified-power (simplify (power-base poly))
-                       (power-exponent poly)))
-    ((derivative? poly) poly)))
+                       (power-exponent poly)))))
 
 ;; Given a list of polynomials polys, construct a simplified sum of polys.
 ;; polys -> poly
