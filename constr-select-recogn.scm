@@ -14,14 +14,14 @@
 
 (define (sum . polys)
   (append '(+) (append-map (lambda (x)
-                             (if (sum? x)
+                             (if (sum? x) ; It removes nested sums
                                (sum->args x)
                                (list x)))
                            polys)))
 
 (define (prod . polys)
   (append '(*) (append-map (lambda (x)
-                             (if (prod? x)
+                             (if (prod? x) ; It removes nested prods
                                (prod->args x)
                                (list x)))
                            polys)))
