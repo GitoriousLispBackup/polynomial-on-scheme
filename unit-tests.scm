@@ -16,35 +16,55 @@
 (define y
   (var 'y))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Systematical tests
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;;; Unit tests for simplification
-(unit-tests simplified-sum
-            (((0) => 0)
-             ((0 0) => 0)
-             ((0 1) => 1)
-             ((1) => 1)
-             ((1 x) => (sum 1 x))
-             ((x y) => (sum x y))))
+(check (simplify (sum x (sum x))) => (prod 2 x))
+(check (simplify (sum x (sum x) (prod x))) => (prod 3 x))
 
-(unit-tests simplified-prod
-           (((0) => 0)
-            ((0 0) => 0)
-            ((0 1) => 0)
-            ((1) => 1)
-            ((1 1) => 1)
-            ((1 x) => x)
-            ((2 x) => (prod 2 x))
-            ((x y) => (prod x y))))
+(check (simplified-sum '(0)) => 0)
+(check (simplified-sum '(0 0)) => 0)
+(check (simplified-sum '(0 1)) => 1)
+(check (simplified-sum '(1)) => 1)
+(check (simplified-sum '(1 x)) => (sum 1 x))
+(check (simplified-sum '(x y)) => (sum x y))
 
-;++TODO
-(unit-tests simplified-power
-           ((0 0 => 1)
-            (0 2 => 0)
-            (1 2 => 1)
-            (x 0 => 1)
-            (x 1 => x)))
+(check (simplified-prod '(0)) => 0)
+(check (simplified-prod '(0 0)) => 0)
+(check (simplified-prod '(0 1)) => 0)
+(check (simplified-prod '(1)) => 1)
+(check (simplified-prod '(1 1)) => 1)
+(check (simplified-prod '(1 x)) => x)
+(check (simplified-prod '(2 x)) => (prod 2 x))
+(check (simplified-prod '(x y)) => (prod x y))
+
+(check (simplified-power 0 0) => 1)
+(check (simplified-power 0 2) => 0)
+(check (simplified-power 1 2) => 1)
+(check (simplified-power x 0) => 1)
+(check (simplified-power x 1) => x)
+
+;;; Unit tests for expand
+(check (poly-expand (sum x y)) => (sum x y))
+(check (poly-expand (prod x y)) => (prod x y))
+(check (poly-expand (prod 1 (sum x y))) => (sum x y))
+(check (poly-expand (prod 0 (sum x y))) => 0)
+(check (poly-expand (sum (prod x))) => x)
+(check (poly-expand (prod (sum x))) => x)
+
+(check (remove-depth-one (prod x (prod x y))) => (prod x x y))
+(check (remove-depth-one (sum x (sum x y))) => (sum x x y))
+(check (remove-depth-one (prod x (prod x (prod x y)))) => (prod x x (prod x y)))
+(check (remove-depth-one (sum x (sum x (sum x y)))) => (sum x x (sum x y)))
+
+;;; Unit tests for differentiation
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;Random tests
+;;; Random tests
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (define c3
   (const 3))
 
@@ -59,13 +79,16 @@
        (prod c3 y)))
 
 (define mypoly
-  (sum (sum (var 'x)
+  (sum (sum x
             (const 5)
-            (power (var 'x)
+            (power x
                    4))
-       (prod  (var 'x)
+       (prod  x
               (const 5)
-              (const 'x))))
+              x)))
+
+;;; Unit tests for simplification
+(check (simplify mypoly) => 0)
 
 (check (simplify (sum 0 0)) => 0)
 (check (simplify (sum <x+y> 0)) => <x+y>)
@@ -85,8 +108,8 @@
 (check (simplify (power <x+y> 1)) => <x+y>)
 (check (simplify (power mypoly 1)) => (simplify mypoly))
 
-(check (d (var 'x) (var 'x)) => 1)
-(check (d (const 5) (var 'x)) => 0)
+;;; Unit tests for expand
 
-
-
+;;; Unit tests for differentiation
+(check (d x x) => 1)
+(check (d c3 x) => 0)

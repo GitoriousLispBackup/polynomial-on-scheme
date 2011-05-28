@@ -9,6 +9,7 @@
 ;; Load list tools.
 (load "list_tools.scm")
 
+;TODO
 ;; Another way to write check
 ;; (check-proc-on-case proc (arg1 arg2 ... => result)) ==> (check (proc arg1 arg2 ...) => result)
 (define-syntax check-proc-on-case
@@ -27,3 +28,12 @@
        (let ((to-eval (map (lambda (c) (list 'check-proc-on-case proc c))
                             t-cases)))
          (eval `(begin ,@to-eval)))))))
+
+;example
+;(unit-tests simplified-power
+;           ((0 0 => 1)
+;            (0 2 => 0)
+;            (1 2 => 1)
+;            (x 0 => 1)
+;            (x 1 => x)))
+
