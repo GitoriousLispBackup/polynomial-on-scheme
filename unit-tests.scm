@@ -83,7 +83,7 @@
               x)))
 
 ;;; Unit tests for simplification
-(check (simplify mypoly) => 0)
+(check (simplify mypoly) => (sum x 5 (pow x 4) (prod x 5 x)))
 
 (check (simplify (sum 0 0)) => 0)
 (check (simplify (sum <x+y> 0)) => <x+y>)
