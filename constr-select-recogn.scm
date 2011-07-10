@@ -13,18 +13,18 @@
   sym)
 
 (define (sum . polys)
-  (append '(+) (append-map (lambda (x)
-                             (if (sum? x) ; It removes nested sums
-                               (sum->args x)
-                               (list x)))
-                           polys)))
+  (append '(+) (group-sum (append-map (lambda (x) ; Groups iterated sums in a product
+                                        (if (sum? x) ; It removes one level nested sums
+                                          (sum->args x)
+                                          (list x)))
+                                      polys))))
 
 (define (prod . polys)
-  (append '(*) (append-map (lambda (x)
-                             (if (prod? x) ; It removes nested prods
-                               (prod->args x)
-                               (list x)))
-                           polys)))
+  (append '(*) (group-prod (append-map (lambda (x) ; Groups iterated products in a power
+                                         (if (prod? x) ; It removes one level nested prods
+                                           (prod->args x)
+                                           (list x)))
+                                       polys))))
 
 (define (power poly num)
   (list '** poly num))

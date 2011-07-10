@@ -5,6 +5,7 @@
 (load "differentiation.scm")
 (load "simplification.scm")
 (load "expand.scm")
+(load "group.scm")
 
 ;; Load list tools.
 (load "list_tools.scm")

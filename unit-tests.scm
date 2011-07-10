@@ -1,5 +1,7 @@
 ;;; Unit testing
 
+;++ TODO The test coverage is bad. Write more tests.
+
 ;; Load the polynomial stuff.
 (load "polynom.scm")
 
@@ -20,10 +22,14 @@
 ;;; Systematical tests
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; Unit tests for simplification
-(check (simplify (sum x (sum x))) => (prod 2 x))
-(check (simplify (sum x (sum x) (prod x))) => (prod 3 x))
+;;; Unit tests for constructors
+(check (sum x (sum x)) => (prod 2 x))
+(check (sum x (sum x) (prod x)) => (prod 3 x))
+(check (sum x (sum x) (prod 2 x)) => (prod 4 x))
+(check (sum x (sum x) (prod x 2)) => (prod 4 x))
+(check (prod x (prod x) (power x 2)) => (power x 4))
 
+;;; Unit tests for simplification
 (check (simplified-sum '(0)) => 0)
 (check (simplified-sum '(0 0)) => 0)
 (check (simplified-sum '(0 1)) => 1)
