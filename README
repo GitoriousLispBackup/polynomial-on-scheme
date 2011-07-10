@@ -1,0 +1,23 @@
+    All implemented algorithms are the most naives ones possible.
+Do not use this library for any real-world applications. It was
+done simply as an exercise to learn lisp (scheme). Regrettably I
+have not found out much about macros and continuation.
+
+    poly-expand is very inefficient as it expands everything.
+For example ((power x 100) -> (prod x ... x)).
+
+    signature (and same-signature?) is very inefficient as it
+expands everything (like poly-expand but it does not use it).
+
+    In order to use a bit less memory the group function was
+created but currently it's not of great use. The first problem
+is that it uses signature (see the last paragraph). The second
+problem is that poly-expand still represents internally at some
+point the completely expanded form (see the paragraph before).
+
+    A very big drawback is that the functions are not tail-recursively
+optimised.
+
+    For no specific reason I have not implemented (and tried not to use)
+canonical representations. Propably it's a stupid idea for production
+code, but it was fun to do it that way.
