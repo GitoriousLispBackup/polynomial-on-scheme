@@ -21,3 +21,5 @@ optimised.
     For no specific reason I have not implemented (and tried not to use)
 canonical representations. Propably it's a stupid idea for production
 code, but it was fun to do it that way.
+
+    Loosely based on http://www.cs.sfu.ca/CC/310/pwfong/Lisp/3/tutorial3.html
